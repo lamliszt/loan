@@ -1,0 +1,8 @@
+LoanPredictionProject/
+├── app.py                # File chính chạy Flask
+├── loan_data.csv         # File dữ liệu
+├── loan_prediction.py    # File dự đoán với mô hình học máy
+├── templates/
+│   └── index.html        # File HTML cho giao diện
+├── static/
+│   └── style.css         # File CSS cho kiểu dáng (tùy chọn)

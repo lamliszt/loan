@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự đoán trạng thái khoản vay</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 500px;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+        }
+        form label {
+            font-weight: bold;
+            color: #555;
+        }
+        form select, form input, form .radio-group {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dự đoán trạng thái khoản vay</h1>
+        
+        <!-- Hiển thị lỗi nếu có -->
+        {% if error %}
+            <p class="result" style="color:red;">{{ error }}</p>
+        {% endif %}
+
+        <form action="/predict" method="post">
+            <label>Giới tính:</label>
+            <select name="Gender">
+                <option value="Male">Nam</option>
+                <option value="Female">Nữ</option>
+            </select>
+
+            <label>Tình trạng hôn nhân:</label>
+            <select name="Married">
+                <option value="Yes">Có</option>
+                <option value="No">Không</option>
+            </select>
+
+            <label>Số người phụ thuộc:</label>
+            <select name="Dependents">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3+">3+</option>
+            </select>
+
+            <label>Trình độ học vấn:</label>
+            <select name="Education">
+                <option value="Graduate">Đại học</option>
+                <option value="Not Graduate">Chưa tốt nghiệp</option>
+            </select>
+
+            <label>Tự làm chủ:</label>
+            <select name="Self_Employed">
+                <option value="Yes">Có</option>
+                <option value="No">Không</option>
+            </select>
+
+            <label>Thu nhập của người vay:</label>
+            <input type="number" name="ApplicantIncome" step="any">
+
+            <label>Thu nhập của người cùng vay:</label>
+            <input type="number" name="CoapplicantIncome" step="any">
+
+            <label>Số tiền vay:</label>
+            <input type="number" name="LoanAmount" step="any">
+
+            <label>Thời hạn vay:</label>
+            <input type="number" name="Loan_Amount_Term" step="any">
+
+            <label>Lịch sử tín dụng:</label>
+            <select name="Credit_History">
+                <option value="1">Tốt (1)</option>
+                <option value="0">Xấu (0)</option>
+            </select>
+
+            <label>Khu vực bất động sản:</label>
+            <select name="Property_Area">
+                <option value="Urban">Thành thị</option>
+                <option value="Semiurban">Bán thành thị</option>
+                <option value="Rural">Nông thôn</option>
+            </select>
+
+            <button type="submit">Dự đoán</button>
+        </form>
+
+        <!-- Hiển thị kết quả dự đoán từ ba mô hình -->
+        {% if prediction_tree %}
+            <p class="result">Kết quả từ Decision Tree: {{ prediction_tree }}</p>
+        {% endif %}
+        {% if prediction_rf %}
+            <p class="result">Kết quả từ Random Forest: {{ prediction_rf }}</p>
+        {% endif %}
+        {% if prediction_lr %}
+            <p class="result">Kết quả từ Logistic Regression: {{ prediction_lr }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
